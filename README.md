@@ -17,6 +17,7 @@ Instead use the github repo: [http://nvd3-community.github.io/nvd3/examples/docu
 - Clone the repo using this command `git clone https://github.com/droarty/pension-stories.git`
 
 ## To commit to the repo
-- Check the status of your local repo against github `git status -v`
-- If there are no conflicts, add and commit to repo `git commit -a`
+- Check the status of your local repo `git status -v`
+- If there are no conflicts, add changes to local repo `git commit -a`
 - Please write a detailed commit message
+- To publish your changes to github `git push`
