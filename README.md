@@ -18,4 +18,5 @@ Instead use the github repo: [http://nvd3-community.github.io/nvd3/examples/docu
 
 ## To commit to the repo
 - Check the status of your local repo against github `git status -v`
-- 
+- If there are no conflicts, add and commit to repo `git commit -a`
+- Please write a detailed commit message
