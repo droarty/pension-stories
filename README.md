@@ -21,3 +21,7 @@ Instead use the github repo: [http://nvd3-community.github.io/nvd3/examples/docu
 - If there are no conflicts, add changes to local repo `git commit -a`
 - Please write a detailed commit message
 - To publish your changes to github `git push`
+
+## To update your local repo to the latest version on github
+- Check the status of your repo `git status -v`
+- If you are behind the latest version use `git pull --rebase`
