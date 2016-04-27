@@ -42,6 +42,7 @@
       pension_plans_formatted.push({
           key: plan.fund,
           values: [
+<<<<<<< 070648a7d76977efc5cebbed67804fdce4f3acb6
               {label: 'Unfunded Liabilities', value: plan.liability - plan.assets},
               {label: 'Current Liabilities', value: plan.liability},
               {label: 'Current Assets', value: plan.assets}
@@ -172,18 +173,45 @@
                 }
             ]
         }
+=======
+              {label: 'Unfunded Liabilities', value: plan.liability - plan.assets} /* ,
+              {label: 'Current Liabilities', value: plan.liability},
+              {label: 'Current Assets', value: plan.assets} */
+          ]
+      })
+    }
+    var bar_colors = [
+        '#4572A7',
+        '#AA4643',
+        '#89A54E',
+        '#71588F',
+        '#4198AF',
+        '#DB843D',
+        '#93A9CF',
+        '#D19392',
+        '#B9CD96',
+        '#A99BBD'
+>>>>>>> This adds the D3 and NVD3 libraries plus one example page
     ];
     var chart;
     nv.addGraph(function() {
         chart = nv.models.multiBarHorizontalChart()
             .x(function(d) { return d.label })
             .y(function(d) { return d.value })
+<<<<<<< 070648a7d76977efc5cebbed67804fdce4f3acb6
             .barColor(d3.scale.category20().range())
+=======
+            .color(bar_colors)
+>>>>>>> This adds the D3 and NVD3 libraries plus one example page
             .duration(250)
             .margin({left: 150})
             .stacked(false);
         chart.yAxis.tickFormat(d3.format(',.2f'));
+<<<<<<< 070648a7d76977efc5cebbed67804fdce4f3acb6
         chart.yAxis.axisLabel('Y Axis');
+=======
+        chart.yAxis.axisLabel('');
+>>>>>>> This adds the D3 and NVD3 libraries plus one example page
         chart.xAxis.axisLabel('X Axis').axisLabelDistance(20);
         d3.select('#chart1 svg')
             .datum(pension_plans_formatted)
