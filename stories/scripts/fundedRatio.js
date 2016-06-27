@@ -12,7 +12,7 @@ var start = function() {
               for (var i=0; i < contributionPayrollRatios.length; i++) {
                   var ratio = contributionPayrollRatios[i];
                   var revisedData = reviseFundingRatio(ratio, planRow)
-                  graphData.push(transformDataToGraphData(revisedData, 'Year', 'FundingRatio', ratio))
+                  graphData.push(transformDataToGraphData(revisedData, 'Year', 'FundingRatio', planRow.fund + ' at ' + ratio + ' of payroll'))
               }
               buildGraph(graphData)
           }
@@ -53,9 +53,9 @@ var reviseFundingRatio = function(stateContributionVsPayrollRatio, plan) {
         row.State_Contribution = stateContributionVsPayrollRatio * Number(row.Payroll);
         var payments = Number(row.State_Contribution) + Number(row.Employee_Contribution);
         var netFlows = payments - Number(row.Debt_Service) - Number(row.Total)
-        if (i < totalsData.length - 1) {
+        if (i < totalsData.length - 1 && row.Assets != '' && row.AAL != '') {
             totalsData[i+1].Assets = Number(row.Assets) * (1 + plan.return_rate) +
-                payments * Math.pow((1 + plan.return_rate), 0.5)
+                netFlows * Math.pow((1 + plan.return_rate), 0.5)
         }
         row.FundingRatio = Math.round(Number(row.Assets)/Number(row.AAL)*1000)/1000;
     }
@@ -77,31 +77,24 @@ buildGraph = function(data_src) {
     // Wrapping in nv.addGraph allows for '0 timeout render', stores rendered charts in nv.graphs,
     // and may do more in the future... it's NOT required
     nv.addGraph(function() {
-        var chart = nv.models.cumulativeLineChart()
+        var chart = nv.models.lineChart()
             .useInteractiveGuideline(true)
             .x(function(d) { return d[0] })
             .y(function(d) { return d[1] })
             .color(d3.scale.category10().range())
-            .average(function(d) { return d.mean; })
             .duration(300)
             .clipVoronoi(false);
-        chart.dispatch.on('renderEnd', function() {
-            console.log('render complete: cumulative line with guide line');
-        });
-/*            chart.xAxis.tickFormat(function(d) {
-            return d3.time.format('%m/%d/%y')(new Date(d))
-        });
-        chart.yAxis.tickFormat(d3.format(',.1%'));
-        */
-        d3.select('#chart1 svg')
+
+        d3.select('#chart1').append("svg").attr("width", 800).attr("height", 500)
             .datum(data_src)
             .call(chart);
         //TODO: Figure out a good way to do this automatically
         nv.utils.windowResize(chart.update);
         chart.dispatch.on('stateChange', function(e) { nv.log('New State:', JSON.stringify(e)); });
-        chart.state.dispatch.on('change', function(state){
-            nv.log('state', JSON.stringify(state));
-        });
         return chart;
     });
 }
+
+
+// runs the data processing and creates the graphData
+start();
